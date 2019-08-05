@@ -1,4 +1,8 @@
-ef sub_cb(topic, msg):
+# Write your code here :-)
+# Complete project details at https://RandomNerdTutorials.com
+
+
+def sub_cb(topic, msg):
     print((topic, msg))
 
 
@@ -26,15 +30,10 @@ except OSError as e:
     restart_and_reconnect()
 
 while True:
-    try:
-        new_message = client.check_msg()
-        if new_message != "None":
-            pass
-            while True:
-                if button.value() == 1:
-                    client.publish(topic_pub, b"received")
-                    print("button pressed")
-            time.sleep_ms(20)
-        time.sleep(1)
-    except OSError as e:
-        restart_and_reconnect()
+  try:
+    new_message = client.check_msg()
+    if new_message != 'None':
+      client.publish(topic_pub, b'received')
+    time.sleep(1)
+  except OSError as e:
+    restart_and_reconnect()
