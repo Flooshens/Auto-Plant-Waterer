@@ -1,3 +1,5 @@
+# Complete project details at https://RandomNerdTutorials.com
+
 import time
 from umqttsimple import MQTTClient
 import ubinascii
@@ -5,16 +7,12 @@ import machine
 import micropython
 import network
 import esp
-
-from machine import Pin
-
-button = Pin(16, Pin.IN)
 esp.osdebug(None)
 import gc
 gc.collect()
 
 ssid = 'Crockett'
-password = 'texpa-18'
+password = '******'
 mqtt_server = '192.168.1.85'
 #EXAMPLE IP ADDRESS
 #mqtt_server = '192.168.1.144'
