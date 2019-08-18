@@ -2,6 +2,8 @@
 # using umqttsimple for the MQTT micropython library. It needs umqttsimple.py downloaded from the above tutorial and placed in main folder
 # with boot.py and main.py
 
+# Complete project details at https://RandomNerdTutorials.com
+
 import time
 from umqttsimple import MQTTClient
 import ubinascii
@@ -14,13 +16,13 @@ import gc
 gc.collect()
 
 ssid = 'Crockett'
-password = '******'
+password = 'texpa-18'
 mqtt_server = '192.168.1.85'
 #EXAMPLE IP ADDRESS
 #mqtt_server = '192.168.1.144'
 client_id = ubinascii.hexlify(machine.unique_id())
-topic_sub = b'notification'
-topic_pub = b'hello'
+topic_sub = b'rpi/darkskyreply'
+topic_pub = b'espsoil/data'
 
 last_message = 0
 message_interval = 5
@@ -36,4 +38,3 @@ while station.isconnected() == False:
 
 print('Connection successful')
 print(station.ifconfig())
-
