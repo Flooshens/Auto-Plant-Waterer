@@ -1,3 +1,14 @@
+# Complete project details at https://RandomNerdTutorials.com
+import machine
+led = machine.Pin(4, machine.Pin.OUT)
+
+######################
+
+
+rtc = machine.RTC() # Clock for deepsleep
+rtc.irq(trigger=rtc.ALARM0, wake=machine.DEEPSLEEP)
+#adc = machine.ADC(0) # Pin to Read sensor voltage
+
 def sub_cb(topic, msg):
   print((topic, msg))
   if topic == b'notification' and msg == b'received':
@@ -18,17 +29,23 @@ def restart_and_reconnect():
   machine.reset()
 
 try:
+
   client = connect_and_subscribe()
+#  print('1')
 except OSError as e:
   restart_and_reconnect()
 
 while True:
   try:
+
     client.check_msg()
-    if (time.time() - last_message) > message_interval:
-      msg = b'Hello #%d' % counter
-      client.publish(topic_pub, msg)
-      last_message = time.time()
-      counter += 1
+#    if (time.time() - last_message) > message_interval:
+    msg = b'check sweetness' #% counter
+    client.publish(topic_pub, msg)
+    last_message = time.time()
+    #counter += 1
+    time.sleep(5)
+
   except OSError as e:
     restart_and_reconnect()
+############
