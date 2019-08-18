@@ -1,0 +1,56 @@
+import forecastio
+import time
+import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish
+
+Broker = "192.168.1.85"
+
+sub_topic = "espsoil/data"    # receive messages on this topic
+
+pub_topic = "rpi/darkskyreply"
+
+
+api_key = "aa6b00c83494f08cb302bf4064a1eddc"
+lat = 41.228000 #30.006359
+lng = -82.486800 #-98.106612
+
+def darksky():
+
+    forecast = forecastio.load_forecast(api_key, lat, lng)
+    byHour = forecast.hourly()
+    data = []
+    for hourlyData in byHour.data:
+        data.append(hourlyData.precipProbability)
+    data = data[:23]
+   # print(data)
+    sumA = 0
+    for item in data:
+        sumA += float(item)
+    if data > 0:
+      frog=sumA/len(data)
+      cat=frog*100
+      cat=round(cat,2)
+      OverallProb = str(cat)
+    else:
+      OverallProb = 0
+    return(OverallProb)
+
+
+
+# when connecting to mqtt do this;
+
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+    client.subscribe(sub_topic)
+
+def publish_mqtt(x):
+    mqttc = mqtt.Client("python_pub")
+    mqttc.connect(Broker, 1883)
+    mqttc.publish(pub_topic, x)
+    #mqttc.loop(2) //timeout = 2s
+
+
+def on_message(client, userdata, msg):
+    message = str(msg.payload)
+    print(msg.topic+" "+message)
+    publish_mqtt(darksky())
